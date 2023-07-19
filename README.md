@@ -62,6 +62,14 @@ To use this project, follow the steps below:
    - Send a GET request to the `/patients` endpoint to retrieve a list of all patients.
    - Include the bearer token received during login as the Authorization header: `Authorization: Bearer <token>`.
    - If the request is successful, you will receive a JSON response containing patient data.
+  
+ 3. Save Endpoint
 
+  `http://localhost:8000/api/save?token=2|RmVjcuq7niHmpwyBUJnRmC0F3LSBgNFfDr2Za8SH`
+
+  - It saves the data from the api project to the database using the mapping.yaml file. 
+  - We need to use a token to run this endpoint.
+  - We can get this token from the token after logging in from the api project.
+ 
 
 
