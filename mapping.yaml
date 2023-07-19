@@ -1,0 +1,30 @@
+- apiField: id
+  db:
+    table: patients
+    field: id
+- apiField: name
+  db:
+    table: patients
+    field: name
+- apiField: surname
+  db:
+    table: patients
+    field: surname
+- apiField: email
+  db:
+    table: patients
+    field: email
+- apiField: treatments
+  array:
+    - apiField: id
+      db:
+        table: treatments
+        field: id
+    - apiField: treatmentName
+      db:
+        table: treatments
+        field: name
+    - apiField: idPatient
+      db:
+        table: treatments
+        field: id_patient
