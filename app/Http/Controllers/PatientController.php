@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PatientCollection;
 use App\Models\Patient;
+use App\Models\Treatment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -32,6 +33,52 @@ class PatientController extends Controller
             ->withHeaders(['Accept' => 'application/json', 'Authorization' => 'Bearer ' . $request->token])
             ->get('http://127.0.0.1:8001/api/patients');
 
-        return $response->json();
+        $mappingData = yaml_parse_file(base_path() . '/mapping.yaml');
+
+        $models = [
+            'patients' => new Patient(),
+            'treatments' => new Treatment()
+        ];
+
+        $databaseData = [];
+        foreach ($response->json() as $key => $item) {
+            $id = $item['id'];
+            foreach ($mappingData as $mapping) {
+                $apiFieldName = $mapping['apiField'];
+                $data = $item[$apiFieldName];
+
+                if (isset($mapping['array']))
+                {
+                    foreach ($mapping['array'] as $relation)
+                    {
+                        $db = $relation['db'];
+                        $apiFieldName = $relation['apiField'];
+                        foreach ($data as $index => $value)
+                        {
+                            $databaseData[$db['table']][$index][$db['field']] = $value[$apiFieldName];
+                        }
+
+                    }
+                }
+                else
+                {
+                    $db = $mapping['db'];
+                    $databaseData[$db['table']][$key][$db['field']] = $data;
+                }
+            }
+        }
+
+        foreach ($databaseData as $table => $data)
+        {
+            $model = $models[$table];
+            foreach ($data as $record)
+            {
+                foreach ($record as $column => $value)
+                {
+                    $model->{$column} = $value;
+                }
+                $model->save();
+            }
+        }
     }
 }
