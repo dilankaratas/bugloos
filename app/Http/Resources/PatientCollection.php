@@ -15,6 +15,9 @@ class PatientCollection extends ResourceCollection
      */
     public function toArray($request): array
     {
+        /**
+         * Convert the patient collection to an array containing certain properties.
+         */
         return $this->collection->map(function ($data) {
             return [
                 'id' => $data->id,

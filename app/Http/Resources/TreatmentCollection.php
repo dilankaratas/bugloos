@@ -14,6 +14,10 @@ class TreatmentCollection extends ResourceCollection
      */
     public function toArray($request): array
     {
+        /**
+         * Transforms the treatment collection into an array, including 'id' and 'name' properties for each treatment.
+         */
+
         return $this->collection->map(function ($data) {
             return [
                 'id' => $data->id,
