@@ -47,11 +47,21 @@ Go to the root of the project and run the following command to install the requi
 
 `php artisan migrate --seed`
 
-## Use
+## Usage
 
-The project follows the following steps for API integration and data transformation:
+To use this project, follow the steps below:
 
-1. Update the API settings in the `config/api.php` file:
+1. Make sure you are logged in to access patient data:
+
+   - Send a POST request to the `/login` endpoint with valid credentials to authenticate.
+   - The request body should include the following parameters: `email` and `password`.
+   - If the authentication is successful, you will receive a bearer token in the response.
+
+2. Retrieve patient data:
+
+   - Send a GET request to the `/patients` endpoint to retrieve a list of all patients.
+   - Include the bearer token received during login as the Authorization header: `Authorization: Bearer <token>`.
+   - If the request is successful, you will receive a JSON response containing patient data.
 
 
 
