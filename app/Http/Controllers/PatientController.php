@@ -9,10 +9,21 @@ use Illuminate\Support\Facades\Http;
 
 class PatientController extends Controller
 {
+    /**
+     * Return a JSON response containing all patients in the form of a PatientCollection
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function index()
     {
         return response()->json(new PatientCollection(Patient::all()));
     }
+
+    /**
+     * Makes an HTTP request to retrieve patients' data from the specified API endpoint.
+     * The request is authenticated using a bearer token and the response is returned as JSON.
+     */
+
 
     public function save(Request $request)
     {
